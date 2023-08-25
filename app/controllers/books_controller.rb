@@ -4,7 +4,7 @@ class BooksController < ApplicationController
     end
     
     def create
-        @book = Book.new(list_params)
+        @book = Book.new(book_params)
         if @book.save
             flash[:notice] = "Book was successfully created."
             redirect_to "/" # 応急的に
@@ -16,7 +16,7 @@ class BooksController < ApplicationController
     
     private
     # ストロングパラメータ
-    def list_params
+    def book_params
         params.require(:book).permit(:title, :text)
     end
 end
