@@ -18,7 +18,7 @@ class BooksController < ApplicationController
             flash[:notice] = "Book was successfully created."
             redirect_to book_path(@book.id)
         else 
-            flash[:alert] = "Error could not create." # 応急的に
+            flash.now[:alert] = "Error could not create." # 応急的に
             @books = Book.all
             render :index
         end
@@ -30,7 +30,9 @@ class BooksController < ApplicationController
             flash[:notice] = "Book was successfully updated."
             redirect_to book_path(book.id)
         else
-            flash[:alert] = "Error could not update."
+            flash.now[:alert] = "Error could not update."
+            @book = Book.find(params[:id])
+            render :edit
         end
     end
     
