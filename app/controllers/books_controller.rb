@@ -19,7 +19,7 @@ class BooksController < ApplicationController
             redirect_to book_path(@book.id)
         else 
             flash.now[:alert] = "Error" # 応急的に
-            render :index
+            redirect_to "/books"
         end
     end
     
@@ -27,6 +27,17 @@ class BooksController < ApplicationController
         book = Book.find(params[:id])
         book.update(book_params)
         redirect_to book_path(book.id)
+    end
+    
+    def destroy
+        book = Book.find(params[:id])
+        if book.destroy
+            flash[:notice] = "Book was successfully destroyed."
+            redirect_to "/books"
+        else
+            flash.now[:alert] = "Error Book was not destroy"
+            redirect_to "/books"
+        end
     end
     
     private
