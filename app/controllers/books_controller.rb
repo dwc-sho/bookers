@@ -18,15 +18,20 @@ class BooksController < ApplicationController
             flash[:notice] = "Book was successfully created."
             redirect_to book_path(@book.id)
         else 
-            flash.now[:alert] = "Error" # 応急的に
-            redirect_to "/books"
+            flash[:alert] = "Error could not create." # 応急的に
+            @books = Book.all
+            render :index
         end
     end
     
     def update
         book = Book.find(params[:id])
-        book.update(book_params)
-        redirect_to book_path(book.id)
+        if book.update(book_params)
+            flash[:notice] = "Book was successfully updated."
+            redirect_to book_path(book.id)
+        else
+            flash[:alert] = "Error could not update."
+        end
     end
     
     def destroy
@@ -35,7 +40,7 @@ class BooksController < ApplicationController
             flash[:notice] = "Book was successfully destroyed."
             redirect_to "/books"
         else
-            flash.now[:alert] = "Error Book was not destroy"
+            flash.now[:alert] = "Error Book was not destroy."
             redirect_to "/books"
         end
     end
